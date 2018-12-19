@@ -1,7 +1,9 @@
+$(eval TAG := $(shell cat TAG))
+
 all: build run
 
 build:
-	docker build -t joshuacox/gprs_build .
+	docker build -t ${TAG} .
 
 run: rm
 	$(eval TMP := $(shell mktemp -d --suffix=DOCKERTMP))
@@ -15,7 +17,7 @@ run: rm
   -v ${PROJECTS_DIR}:/projects \
 	-v /var/run/docker.sock:/run/docker.sock \
 	-v $(shell which docker):/bin/docker \
-  joshuacox/gprs_build \
+  ${TAG} \
   /bin/bash
 
 kill:
